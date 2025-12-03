@@ -27,8 +27,11 @@ export const fetchMovies = createAsyncThunk<
       page,
       query,
     };
-  } catch (err: any) {
-    return rejectWithValue(err.message);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return rejectWithValue(err.message);
+    }
+    return rejectWithValue('Unknown error');
   }
 });
 

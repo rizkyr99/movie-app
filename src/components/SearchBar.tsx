@@ -14,25 +14,20 @@ const SearchBar = () => {
   const debouncedValue = useDebounce(inputValue, 500);
 
   useEffect(() => {
-    if (!debouncedValue) return;
-
-    dispatch(setQuery(debouncedValue));
-    dispatch(fetchMovies({ query: debouncedValue, page: 1 }));
-  }, [debouncedValue, dispatch]);
-
-  useEffect(() => {
     const fetchAutocomplete = async () => {
-      if (debouncedValue.length < 3) {
+      if (!debouncedValue || debouncedValue.length < 3) {
         setAutoCompleteResults([]);
         return;
       }
+
       try {
         const results = await autocompleteSearch(debouncedValue);
         setAutoCompleteResults(results || []);
-      } catch (err) {
+      } catch {
         setAutoCompleteResults([]);
       }
     };
+
     fetchAutocomplete();
   }, [debouncedValue]);
 

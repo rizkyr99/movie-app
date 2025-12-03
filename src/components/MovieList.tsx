@@ -1,8 +1,9 @@
 import MovieCard from './MovieCard';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import MovieModal from './MovieModal';
 import { fetchMovies } from '../store/moviesSlice';
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 
 const MovieList = () => {
   const dispatch = useAppDispatch();
@@ -16,8 +17,8 @@ const MovieList = () => {
   const [modalPoster, setModalPoster] = useState('');
   const [modalTitle, setModalTitle] = useState('');
 
-  const sentinelRef = useRef(null);
-  const hasMore = movies.length < totalResults && movies.length >= 5;
+  const loading = status === 'loading';
+  const hasMore = movies.length < totalResults && movies.length > 0;
 
   const openModal = (posterUrl: string, title: string) => {
     setModalPoster(posterUrl);
@@ -25,28 +26,18 @@ const MovieList = () => {
     setModalOpen(true);
   };
 
-  useEffect(() => {
-    console.log(hasMore);
-    if (!hasMore) return;
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
+  const handleLoadMore = useCallback(() => {
+    if (!query || loading || !hasMore) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting && status !== 'loading') {
-          dispatch(fetchMovies({ query, page: page + 1 }));
-        }
-      },
-      { threshold: 1.0 }
-    );
+    dispatch(fetchMovies({ query, page: page + 1 }));
+  }, [dispatch, query, page, loading, hasMore]);
 
-    observer.observe(sentinel);
-
-    return () => {
-      if (sentinel) observer.unobserve(sentinel);
-    };
-  }, [dispatch, query, page, status, hasMore]);
+  const sentinelRef = useInfiniteScroll({
+    hasMore,
+    loading,
+    onLoadMore: handleLoadMore,
+    threshold: 1.0,
+  });
 
   if (status === 'failed') {
     return <p>Failed to load movies.</p>;
@@ -55,14 +46,20 @@ const MovieList = () => {
   return (
     <>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-6'>
-        {movies.map((movie) => (
-          <MovieCard key={movie.imdbID} movie={movie} onClick={openModal} />
+        {movies.map((movie, index) => (
+          <MovieCard key={index} movie={movie} onClick={openModal} />
         ))}
       </div>
 
       {status === 'loading' && <p>Loading more movies...</p>}
 
-      {hasMore && <div ref={sentinelRef} />}
+      {hasMore && (
+        <div
+          ref={sentinelRef}
+          className='h-4 w-fit bg-transparent mx-auto my-4'>
+          Load More
+        </div>
+      )}
 
       {!movies.length && status === 'succeeded' && (
         <p className='status-message'>No movies found.</p>
