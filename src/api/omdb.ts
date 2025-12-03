@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Movie } from '../types/movie';
+import type { Movie, MovieDetail } from '../types/movie';
 
 const API_KEY = '21a13816';
 
@@ -32,6 +32,13 @@ export const searchMovies = async ({
     params: { s: query, page },
   });
 
+  return res.data;
+};
+
+export const getMovieById = async (imdbID: string): Promise<MovieDetail> => {
+  const res = await omdbClient.get('', {
+    params: { i: imdbID, plot: 'full' },
+  });
   return res.data;
 };
 

@@ -5,7 +5,7 @@ import { fetchMovies, resetMovies, setQuery } from '../store/moviesSlice';
 import { autocompleteSearch } from '../api/omdb';
 import type { Movie } from '../types/movie';
 import AutoCompleteList from './AutoCompleteList';
-import { Loader2, X } from 'lucide-react';
+import { Loader2, Search, X } from 'lucide-react';
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
@@ -105,9 +105,9 @@ const SearchBar = () => {
           )}
         </div>
         <button
-          className='bg-blue-500 hover:bg-blue-400 cursor-pointer px-4 py-2 rounded-lg'
+          className='bg-amber-500 hover:bg-amber-400 text-black cursor-pointer px-4 py-2 rounded-lg'
           type='submit'>
-          Search
+          <Search className='size-6 stroke-3' />
         </button>
       </form>
       {hasInteracted && autoCompleteResults.length > 0 && (

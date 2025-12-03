@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import type { Movie } from '../types/movie';
+import { ArrowRight } from 'lucide-react';
 
 interface MovieCardProps {
   movie: Movie;
@@ -21,8 +22,9 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
       </div>
       <Link
         to={`/movie/${movie.imdbID}`}
-        className='mt-4 inline-block border border-gray-500 px-4 py-2 text-sm rounded'>
+        className='group mt-4 w-fit flex items-center gap-2 text-sm hover:font-semibold transition'>
         View details
+        <ArrowRight className='size-4 group-hover:translate-x-2 transition group-hover:text-amber-500' />
       </Link>
     </div>
   );
