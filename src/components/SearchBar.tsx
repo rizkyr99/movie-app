@@ -67,6 +67,13 @@ const SearchBar = () => {
               onClick={handleClearInput}
             />
           )}
+
+          {autoCompleteResults.length > 0 && (
+            <AutoCompleteList
+              results={autoCompleteResults}
+              onSelect={handleSelectSuggestion}
+            />
+          )}
         </div>
         <button
           className='bg-amber-500 hover:bg-amber-400 text-black cursor-pointer px-4 py-2 rounded-lg'
@@ -74,12 +81,6 @@ const SearchBar = () => {
           <Search className='size-6 stroke-3' />
         </button>
       </form>
-      {autoCompleteResults.length > 0 && (
-        <AutoCompleteList
-          results={autoCompleteResults}
-          onSelect={handleSelectSuggestion}
-        />
-      )}
     </div>
   );
 };

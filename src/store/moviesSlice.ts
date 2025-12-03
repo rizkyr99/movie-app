@@ -46,7 +46,7 @@ interface MoviesState {
 }
 
 const initialState: MoviesState = {
-  query: 'Batman',
+  query: '',
   items: [],
   status: 'idle',
   totalResults: 0,

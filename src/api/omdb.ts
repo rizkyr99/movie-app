@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Movie, MovieDetail } from '../types/movie';
 
-const API_KEY = import.meta.env.VITE_OMDB_API_KEY || '21a13816';
+const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 
 const omdbClient = axios.create({
   baseURL: 'https://www.omdbapi.com',

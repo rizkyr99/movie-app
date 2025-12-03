@@ -9,7 +9,7 @@ const AutoCompleteList = ({ results, onSelect }: AutoCompleteListProps) => {
   if (!results.length) return null;
 
   return (
-    <ul className='absolute top-full bg-gray-800 p-4 rounded-lg space-y-2 z-50'>
+    <ul className='absolute left-0 right-0 top-full mt-4 bg-gray-800 p-4 rounded-lg space-y-2 z-50'>
       {results.map((movie) => (
         <li
           key={movie.imdbID}
