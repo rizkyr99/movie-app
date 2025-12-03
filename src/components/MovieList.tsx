@@ -1,6 +1,6 @@
 import MovieCard from './MovieCard';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import MovieModal from './MovieModal';
 import { fetchMovies } from '../store/moviesSlice';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
@@ -19,6 +19,12 @@ const MovieList = () => {
 
   const loading = status === 'loading';
   const hasMore = movies.length < totalResults && movies.length > 0;
+
+  useEffect(() => {
+    if (status === 'idle' && query) {
+      dispatch(fetchMovies({ query, page: 1 }));
+    }
+  }, [dispatch, status, query]);
 
   const openModal = (posterUrl: string, title: string) => {
     setModalPoster(posterUrl);

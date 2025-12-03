@@ -1,3 +1,5 @@
+import { X } from 'lucide-react';
+
 interface MovieModalProps {
   isOpen: boolean;
   posterUrl: string;
@@ -11,19 +13,19 @@ const MovieModal = ({ isOpen, posterUrl, title, onClose }: MovieModalProps) => {
   return (
     <div
       onClick={onClose}
-      className='fixed inset-0 bg-black/50 flex items-center justify-center'>
+      className='fixed inset-0 bg-black/90 flex items-center justify-center'>
       <div
         onClick={(e) => e.stopPropagation()}
-        className='relative bg-gray-800 p-6 rounded-xl w-full max-w-xl max-h-screen overflow-y-auto'
+        className='relative bg-gray-900 p-6 rounded-xl w-full max-w-xl max-h-screen overflow-y-auto'
         role='dialog'
         aria-modal='true'>
         <button
-          className='absolute top-4 right-4 cursor-pointer'
+          className='absolute top-6 right-6 cursor-pointer p-1 bg-white/25 rounded-full'
           onClick={onClose}>
-          X
+          <X className='size-4' />
         </button>
-        <img src={posterUrl} alt={title} className='w-full' />
-        <p className='text-lg font-bold mt-2'>{title}</p>
+        <p className='text-xl font-bold mb-4 pr-8'>{title}</p>
+        <img src={posterUrl} alt={title} className='w-full rounded-lg' />
       </div>
     </div>
   );
