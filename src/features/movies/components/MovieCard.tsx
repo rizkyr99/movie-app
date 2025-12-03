@@ -1,6 +1,7 @@
 import type { Movie } from '../types';
 import { ArrowRight } from 'lucide-react';
 import Button from '../../../shared/components/Button';
+import { Link } from 'react-router';
 
 interface MovieCardProps {
   movie: Movie;
@@ -24,14 +25,19 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
         role='button'
         aria-label={`Open large view for ${movie.Title} poster`}
       />
-      <div className=''>
-        <p className='text-lg font-bold mt-4 mb-1'>{movie?.Title}</p>
-        <p className='text-sm text-gray-500'>{movie?.Year}</p>
-      </div>
-      <Button variant='link' to={`/movie/${movie.imdbID}`}>
-        View details
-        <ArrowRight className='size-4 group-hover:translate-x-2 transition group-hover:text-amber-500' />
-      </Button>
+      <Link
+        to={`/movie/${movie.imdbID}`}
+        className='mt-4 flex flex-col flex-1 group'>
+        <p className='text-lg font-bold mb-1 group-hover:text-amber-400 transition'>
+          {movie.Title}
+        </p>
+        <p className='text-sm text-gray-500'>{movie.Year}</p>
+
+        <Button variant='link' className='mt-2 p-0'>
+          View details
+          <ArrowRight className='size-4 group-hover:translate-x-2 transition group-hover:text-amber-500' />
+        </Button>
+      </Link>
     </div>
   );
 };

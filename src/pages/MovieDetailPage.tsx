@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../shared/store/hooks';
 import { useEffect } from 'react';
 import { fetchMovieDetail } from '../features/movies/store/movieDetailSlice';
@@ -11,6 +11,7 @@ import Button from '../shared/components/Button';
 
 const MovieDetailPage = () => {
   const { imdbID } = useParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const movie = useAppSelector((state) => state.movieDetails.movie);
   const status = useAppSelector((state) => state.movieDetails.status);
@@ -60,7 +61,7 @@ const MovieDetailPage = () => {
 
   return (
     <div className='py-40 px-12 relative'>
-      <Button variant='secondary' to='/' className='mb-6'>
+      <Button variant='secondary' onClick={() => navigate(-1)} className='mb-6'>
         <ArrowLeft className='size-4' />
         Back
       </Button>
