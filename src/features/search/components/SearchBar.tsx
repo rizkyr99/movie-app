@@ -7,6 +7,7 @@ import {
 import AutoCompleteList from './AutoCompleteList';
 import { Loader2, Search, X } from 'lucide-react';
 import { useMovieSearchAutocomplete } from '../hooks/useMovieSearchAutocomplete';
+import Button from '../../../shared/components/Button';
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
@@ -79,11 +80,9 @@ const SearchBar = () => {
             />
           )}
         </div>
-        <button
-          className='bg-amber-500 hover:bg-amber-400 text-black cursor-pointer px-4 py-2 rounded-lg'
-          type='submit'>
+        <Button type='submit'>
           <Search className='size-6 stroke-3' />
-        </button>
+        </Button>
       </form>
     </div>
   );

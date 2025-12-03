@@ -1,6 +1,6 @@
-import { Link } from 'react-router';
 import type { Movie } from '../types';
 import { ArrowRight } from 'lucide-react';
+import Button from '../../../shared/components/Button';
 
 interface MovieCardProps {
   movie: Movie;
@@ -28,13 +28,10 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
         <p className='text-lg font-bold mt-4 mb-1'>{movie?.Title}</p>
         <p className='text-sm text-gray-500'>{movie?.Year}</p>
       </div>
-      <Link
-        to={`/movie/${movie.imdbID}`}
-        className='group mt-4 w-fit flex items-center gap-2 text-sm hover:font-semibold transition'
-        aria-label={`View details for the movie ${movie.Title}`}>
+      <Button variant='link' to={`/movie/${movie.imdbID}`}>
         View details
         <ArrowRight className='size-4 group-hover:translate-x-2 transition group-hover:text-amber-500' />
-      </Link>
+      </Button>
     </div>
   );
 };

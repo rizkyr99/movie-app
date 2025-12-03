@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../shared/store/hooks';
 import { useEffect } from 'react';
 import { fetchMovieDetail } from '../features/movies/store/movieDetailSlice';
@@ -7,6 +7,7 @@ import MovieHeader from '../features/movies/components/MovieHeader';
 import MovieInfoGrid from '../features/movies/components/MovieInfoGrid';
 import MoviePlotAndCredits from '../features/movies/components/MoviePlotAndCredits';
 import MovieEmpty from '../features/movies/components/MovieEmpty';
+import Button from '../shared/components/Button';
 
 const MovieDetailPage = () => {
   const { imdbID } = useParams();
@@ -59,12 +60,11 @@ const MovieDetailPage = () => {
 
   return (
     <div className='py-40 px-12 relative'>
-      <Link
-        to='/'
-        className='bg-gray-700 px-6 py-3 rounded-xl mb-6 cursor-pointer hover:bg-gray-600 transition inline-flex items-center gap-2'>
+      <Button variant='secondary' to='/' className='mb-6'>
         <ArrowLeft className='size-4' />
         Back
-      </Link>
+      </Button>
+
       <div className='space-y-24'>
         <MovieHeader
           Title={Title}
