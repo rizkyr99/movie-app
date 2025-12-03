@@ -16,7 +16,7 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
       <img
         src={movie.Poster !== 'N/A' ? movie.Poster : NO_IMAGE_URL}
         alt={movie?.Title}
-        className='rounded-xl w-full hover:scale-105 transition flex-1 cursor-pointer'
+        className='rounded-xl w-full object-cover aspect-2/3 hover:scale-105 transition cursor-pointer'
         loading='lazy'
         onError={(e) => {
           (e.currentTarget as HTMLImageElement).src = NO_IMAGE_URL;
@@ -27,11 +27,13 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
       />
       <Link
         to={`/movie/${movie.imdbID}`}
-        className='mt-4 flex flex-col flex-1 group'>
-        <p className='text-lg font-bold mb-1 group-hover:text-amber-400 transition'>
-          {movie.Title}
-        </p>
-        <p className='text-sm text-gray-500'>{movie.Year}</p>
+        className='mt-4 flex flex-col group flex-1'>
+        <div className='flex-1'>
+          <p className='text-lg font-bold mb-1 group-hover:text-amber-400 transition'>
+            {movie.Title}
+          </p>
+          <p className='text-sm text-gray-500'>{movie.Year}</p>
+        </div>
 
         <Button variant='link' className='mt-2 p-0'>
           View details
