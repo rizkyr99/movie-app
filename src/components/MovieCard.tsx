@@ -11,9 +11,17 @@ const MovieCard = ({ movie, onClick }: MovieCardProps) => {
   return (
     <div className='cursor-pointer h-full flex flex-col'>
       <img
-        src={movie?.Poster || ''}
+        src={
+          movie.Poster !== 'N/A'
+            ? movie.Poster
+            : 'https://placehold.co/200x300?text=No+Image'
+        }
         alt={movie?.Title}
         className='rounded-xl w-full hover:scale-105 transition flex-1'
+        onError={(e) => {
+          (e.currentTarget as HTMLImageElement).src =
+            'https://placehold.co/200x300?text=No+Image';
+        }}
         onClick={() => onClick(movie.Poster, movie.Title)}
       />
       <div className=''>

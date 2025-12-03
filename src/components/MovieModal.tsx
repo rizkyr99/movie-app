@@ -25,7 +25,15 @@ const MovieModal = ({ isOpen, posterUrl, title, onClose }: MovieModalProps) => {
           <X className='size-4' />
         </button>
         <p className='text-xl font-bold mb-4 pr-8'>{title}</p>
-        <img src={posterUrl} alt={title} className='w-full rounded-lg' />
+        <img
+          src={posterUrl ?? 'https://placehold.co/200x300?text=No+Image'}
+          alt={title}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src =
+              'https://placehold.co/200x300?text=No+Image';
+          }}
+          className='w-full rounded-lg'
+        />
       </div>
     </div>
   );
