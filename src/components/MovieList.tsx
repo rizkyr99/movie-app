@@ -1,10 +1,11 @@
 import MovieCard from './MovieCard';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import MovieModal from './MovieModal';
 import { fetchMovies } from '../store/moviesSlice';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import MovieCardSkeleton from './MovieCardSkeleton';
+import { useModal } from '../hooks/useModal';
 
 const MovieList = () => {
   const dispatch = useAppDispatch();
@@ -14,9 +15,7 @@ const MovieList = () => {
   const status = useAppSelector((state) => state.movies.status);
   const totalResults = useAppSelector((state) => state.movies.totalResults);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalPoster, setModalPoster] = useState('');
-  const [modalTitle, setModalTitle] = useState('');
+  const { isOpen, posterUrl, title, openModal, closeModal } = useModal();
 
   const loading = status === 'loading';
   const hasMore = movies.length < totalResults && movies.length > 0;
@@ -26,12 +25,6 @@ const MovieList = () => {
       dispatch(fetchMovies({ query, page: 1 }));
     }
   }, [dispatch, status, query]);
-
-  const openModal = (posterUrl: string, title: string) => {
-    setModalPoster(posterUrl);
-    setModalTitle(title);
-    setModalOpen(true);
-  };
 
   const handleLoadMore = useCallback(() => {
     if (!query || loading || !hasMore) return;
@@ -65,25 +58,29 @@ const MovieList = () => {
           ))}
       </div>
 
-      {status === 'loading' && <p>Loading more movies...</p>}
+      {loading && movies.length > 0 && (
+        <p className='text-center text-gray-400 my-2'>Loading more movies...</p>
+      )}
 
       {hasMore && (
         <div
           ref={sentinelRef}
-          className='h-4 w-fit bg-transparent mx-auto my-4'>
+          className='h-4 w-fit bg-transparent mx-auto my-4 opacity-0'>
           Load More
         </div>
       )}
 
       {!movies.length && status === 'succeeded' && (
-        <p className='status-message'>No movies found.</p>
+        <p className='status-message text-center p-8'>
+          No movies found. Try a different search.
+        </p>
       )}
 
       <MovieModal
-        isOpen={modalOpen}
-        posterUrl={modalPoster}
-        title={modalTitle}
-        onClose={() => setModalOpen(false)}
+        isOpen={isOpen}
+        posterUrl={posterUrl}
+        title={title}
+        onClose={closeModal}
       />
     </>
   );
