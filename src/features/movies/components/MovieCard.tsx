@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import type { Movie } from '../types/movie';
+import type { Movie } from '../types';
 import { ArrowRight } from 'lucide-react';
 
 interface MovieCardProps {

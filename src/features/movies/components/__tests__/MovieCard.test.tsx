@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { vi } from 'vitest';
 import MovieCard from '../MovieCard';
-import type { Movie } from '../../types/movie';
+import type { Movie } from '../../types';
 
 const renderWithRouter = (ui: React.ReactElement) =>
   render(<MemoryRouter>{ui}</MemoryRouter>);
@@ -66,7 +66,6 @@ describe('MovieCard', () => {
 
     const img = screen.getByAltText('Batman Begins') as HTMLImageElement;
 
-    // Simulate image error
     fireEvent.error(img);
 
     expect(img.src).toBe('https://placehold.co/200x300?text=No+Image');

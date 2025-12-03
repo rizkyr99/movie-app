@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getMovieById } from '../api/omdb';
-import type { MovieDetail } from '../types/movie';
+import { getMovieById } from '../../../shared/api/omdb';
+import type { MovieDetail } from '../types';
 
 interface MovieDetailState {
   movie: MovieDetail | null;

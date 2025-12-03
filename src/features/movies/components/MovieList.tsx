@@ -1,5 +1,5 @@
 import MovieCard from './MovieCard';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks';
 import { useCallback, useEffect } from 'react';
 import MovieModal from './MovieModal';
 import { fetchMovies } from '../store/moviesSlice';
@@ -7,10 +7,7 @@ import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 import MovieCardSkeleton from './MovieCardSkeleton';
 import { useModal } from '../hooks/useModal';
 import MovieEmpty from './MovieEmpty';
-import {
-  EMPTY_STATE_MESSAGES,
-  type MovieEmptyKey,
-} from '../features/movies/constants';
+import { EMPTY_STATE_MESSAGES, type MovieEmptyKey } from '../constants';
 
 const MovieList = () => {
   const dispatch = useAppDispatch();

@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.tsx';
 import { BrowserRouter } from 'react-router';
 import { Provider } from 'react-redux';
-import store from './store/index.ts';
+import store from './shared/store/index.ts';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

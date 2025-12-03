@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import AutoCompleteList from '../AutoCompleteList';
-import type { Movie } from '../../types/movie';
+import type { Movie } from '../../../movies/types';
 
 const mockResults: Movie[] = [
   {

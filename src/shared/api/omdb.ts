@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Movie, MovieDetail } from '../types/movie';
+import type { Movie, MovieDetail } from '../../features/movies/types';
 
 const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 

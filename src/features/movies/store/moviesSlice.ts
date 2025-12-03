@@ -3,8 +3,8 @@ import {
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
-import { searchMovies } from '../api/omdb';
-import type { Movie } from '../types/movie';
+import { searchMovies } from '../../../shared/api/omdb';
+import type { Movie } from '../types';
 
 export const fetchMovies = createAsyncThunk<
   {

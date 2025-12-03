@@ -1,4 +1,3 @@
-// src/components/tests/MovieModal.test.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import MovieModal from '../MovieModal';
@@ -82,7 +81,6 @@ describe('MovieModal', () => {
     render(
       <MovieModal
         isOpen={true}
-        // force undefined through TS
         posterUrl={undefined as unknown as string}
         title='No Poster Movie'
         onClose={vi.fn()}

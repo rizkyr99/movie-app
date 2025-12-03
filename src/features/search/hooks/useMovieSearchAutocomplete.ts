@@ -1,9 +1,7 @@
-// In: hooks/useMovieSearchAutocomplete.ts
-
 import { useEffect, useState } from 'react';
-import useDebounce from './useDebounce'; // Assuming this hook exists
-import { autocompleteSearch } from '../api/omdb'; // Assuming this API function exists
-import type { Movie } from '../types/movie';
+import useDebounce from '../../../shared/hooks/useDebounce';
+import { autocompleteSearch } from '../../../shared/api/omdb';
+import type { Movie } from '../../movies/types';
 
 interface AutoCompleteHook {
   inputValue: string;
@@ -30,7 +28,6 @@ export const useMovieSearchAutocomplete = (
     let ignore = false;
 
     const fetchAutocomplete = async () => {
-      // Logic for minimum length check
       if (!debouncedValue || debouncedValue.length < 3) {
         setAutoCompleteResults([]);
         setIsLoading(false);
@@ -45,7 +42,6 @@ export const useMovieSearchAutocomplete = (
           setAutoCompleteResults(results || []);
         }
       } catch (error) {
-        // Log the error but continue to set empty results on UI
         console.error('Autocomplete fetch failed:', error);
         if (!ignore) {
           setAutoCompleteResults([]);

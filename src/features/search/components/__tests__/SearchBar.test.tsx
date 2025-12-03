@@ -2,22 +2,25 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi, type Mock } from 'vitest';
 
 import SearchBar from '../SearchBar';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import useDebounce from '../../hooks/useDebounce';
-import { fetchMovies, resetMovies, setQuery } from '../../store/moviesSlice';
-import { autocompleteSearch } from '../../api/omdb';
+import { useAppDispatch, useAppSelector } from '../../../../shared/store/hooks';
+import useDebounce from '../../../../shared/hooks/useDebounce';
+import {
+  fetchMovies,
+  resetMovies,
+  setQuery,
+} from '../../../movies/store/moviesSlice';
+import { autocompleteSearch } from '../../../../shared/api/omdb';
 
-// ---- Mocks ----
-vi.mock('../../store/hooks', () => ({
+vi.mock('../../../../shared/store/hooks', () => ({
   useAppDispatch: vi.fn(),
   useAppSelector: vi.fn(),
 }));
 
-vi.mock('../../hooks/useDebounce', () => ({
+vi.mock('../../../../shared/hooks/useDebounce', () => ({
   default: vi.fn(),
 }));
 
-vi.mock('../../store/moviesSlice', () => ({
+vi.mock('../../../movies/store/moviesSlice', () => ({
   resetMovies: vi.fn(() => ({ type: 'movies/resetMovies' })),
   setQuery: vi.fn((payload: string) => ({
     type: 'movies/setQuery',
@@ -29,7 +32,7 @@ vi.mock('../../store/moviesSlice', () => ({
   })),
 }));
 
-vi.mock('../../api/omdb', () => ({
+vi.mock('../../../../shared/api/omdb', () => ({
   autocompleteSearch: vi.fn(),
 }));
 
@@ -64,7 +67,7 @@ describe('SearchBar', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockedUseAppDispatch.mockReturnValue(vi.fn());
-    mockedUseDebounce.mockImplementation((value: string) => value); // no delay
+    mockedUseDebounce.mockImplementation((value: string) => value);
   });
 
   it('renders with initial global query from store', () => {

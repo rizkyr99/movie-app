@@ -1,4 +1,4 @@
-import type { Movie } from '../types/movie';
+import type { Movie } from '../../movies/types';
 
 interface AutoCompleteListProps {
   results: Movie[];

@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../shared/store/hooks';
 import { useEffect } from 'react';
-import { fetchMovieDetail } from '../store/movieDetailSlice';
+import { fetchMovieDetail } from '../features/movies/store/movieDetailSlice';
 import { ArrowLeft, Dot, Loader2, Star } from 'lucide-react';
 
 interface InfoTileProps {
@@ -10,10 +10,8 @@ interface InfoTileProps {
 }
 
 const InfoTile = ({ title, value }: InfoTileProps) => {
-  // Handles 'N/A' and undefined gracefully
   const displayValue = value && value !== 'N/A' ? value : 'Not Available';
 
-  // Link for website if available
   const content =
     title === 'Website' &&
     displayValue !== 'Not Available' &&

@@ -1,5 +1,5 @@
-import MovieList from '../components/MovieList';
-import SearchBar from '../components/SearchBar';
+import MovieList from '../features/movies/components/MovieList';
+import SearchBar from '../features/search/components/SearchBar';
 
 const HomePage = () => {
   return (

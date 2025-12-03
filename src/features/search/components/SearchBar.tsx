@@ -1,5 +1,9 @@
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { fetchMovies, resetMovies, setQuery } from '../store/moviesSlice';
+import { useAppDispatch, useAppSelector } from '../../../shared/store/hooks';
+import {
+  fetchMovies,
+  resetMovies,
+  setQuery,
+} from '../../movies/store/moviesSlice';
 import AutoCompleteList from './AutoCompleteList';
 import { Loader2, Search, X } from 'lucide-react';
 import { useMovieSearchAutocomplete } from '../hooks/useMovieSearchAutocomplete';
