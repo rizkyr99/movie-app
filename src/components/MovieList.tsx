@@ -1,7 +1,8 @@
 import MovieCard from './MovieCard';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MovieModal from './MovieModal';
+import { fetchMovies } from '../store/moviesSlice';
 
 const MovieList = () => {
   const dispatch = useAppDispatch();
@@ -15,11 +16,41 @@ const MovieList = () => {
   const [modalPoster, setModalPoster] = useState('');
   const [modalTitle, setModalTitle] = useState('');
 
+  const sentinelRef = useRef(null);
+  const hasMore = movies.length < totalResults && movies.length >= 5;
+
   const openModal = (posterUrl: string, title: string) => {
     setModalPoster(posterUrl);
     setModalTitle(title);
     setModalOpen(true);
   };
+
+  useEffect(() => {
+    console.log(hasMore);
+    if (!hasMore) return;
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && status !== 'loading') {
+          dispatch(fetchMovies({ query, page: page + 1 }));
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    observer.observe(sentinel);
+
+    return () => {
+      if (sentinel) observer.unobserve(sentinel);
+    };
+  }, [dispatch, query, page, status, hasMore]);
+
+  if (status === 'failed') {
+    return <p>Failed to load movies.</p>;
+  }
 
   return (
     <>
@@ -28,6 +59,15 @@ const MovieList = () => {
           <MovieCard key={movie.imdbID} movie={movie} onClick={openModal} />
         ))}
       </div>
+
+      {status === 'loading' && <p>Loading more movies...</p>}
+
+      {hasMore && <div ref={sentinelRef} />}
+
+      {!movies.length && status === 'succeeded' && (
+        <p className='status-message'>No movies found.</p>
+      )}
+
       <MovieModal
         isOpen={modalOpen}
         posterUrl={modalPoster}
