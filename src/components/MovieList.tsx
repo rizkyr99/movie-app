@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import MovieModal from './MovieModal';
 import { fetchMovies } from '../store/moviesSlice';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import MovieCardSkeleton from './MovieCardSkeleton';
 
 const MovieList = () => {
   const dispatch = useAppDispatch();
@@ -49,12 +50,19 @@ const MovieList = () => {
     return <p>Failed to load movies.</p>;
   }
 
+  const skeletonCount = 8;
+
   return (
     <>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-6'>
         {movies.map((movie, index) => (
           <MovieCard key={index} movie={movie} onClick={openModal} />
         ))}
+
+        {loading &&
+          Array.from({ length: skeletonCount }).map((_, idx) => (
+            <MovieCardSkeleton key={`skeleton-${idx}`} />
+          ))}
       </div>
 
       {status === 'loading' && <p>Loading more movies...</p>}
