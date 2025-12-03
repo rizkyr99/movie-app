@@ -1,96 +1,60 @@
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import useDebounce from '../hooks/useDebounce';
 import { fetchMovies, resetMovies, setQuery } from '../store/moviesSlice';
-import { autocompleteSearch } from '../api/omdb';
-import type { Movie } from '../types/movie';
 import AutoCompleteList from './AutoCompleteList';
 import { Loader2, Search, X } from 'lucide-react';
+import { useMovieSearchAutocomplete } from '../hooks/useMovieSearchAutocomplete';
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
   const globalQuery = useAppSelector((state) => state.movies.query);
-  const [inputValue, setInputValue] = useState(globalQuery || '');
-  const [autoCompleteResults, setAutoCompleteResults] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
 
-  const debouncedValue = useDebounce(inputValue, 500);
+  const {
+    inputValue,
+    setInputValue,
+    autoCompleteResults,
+    isLoading,
+    handleInteraction,
+    clearResults,
+  } = useMovieSearchAutocomplete(globalQuery);
 
-  useEffect(() => {
-    if (!hasInteracted) return;
-
-    let ignore = false;
-
-    const fetchAutocomplete = async () => {
-      if (!debouncedValue || debouncedValue.length < 3) {
-        setAutoCompleteResults([]);
-        setIsLoading(false);
-        return;
-      }
-
-      setIsLoading(true);
-
-      try {
-        const results = await autocompleteSearch(debouncedValue);
-        if (!ignore) {
-          setAutoCompleteResults(results || []);
-        }
-      } catch {
-        if (!ignore) {
-          setAutoCompleteResults([]);
-        }
-      } finally {
-        if (!ignore) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchAutocomplete();
-
-    return () => {
-      ignore = true;
-    };
-  }, [debouncedValue, hasInteracted]);
+  const executeSearch = (query: string) => {
+    dispatch(resetMovies());
+    dispatch(setQuery(query));
+    dispatch(fetchMovies({ query, page: 1 }));
+    clearResults();
+    handleInteraction(false);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(resetMovies());
-    dispatch(setQuery(inputValue));
-    dispatch(fetchMovies({ query: inputValue, page: 1 }));
-    setAutoCompleteResults([]);
-    setHasInteracted(false);
+    if (!inputValue) return;
+    executeSearch(inputValue);
   };
 
   const handleSelectSuggestion = (value: string) => {
     setInputValue(value);
-    dispatch(resetMovies());
-    dispatch(setQuery(value));
-    dispatch(fetchMovies({ query: value, page: 1 }));
-    setAutoCompleteResults([]);
-    setHasInteracted(false);
+    executeSearch(value);
   };
 
   const handleClearInput = () => {
     setInputValue('');
-    setAutoCompleteResults([]);
+    clearResults();
   };
 
   return (
     <div className='relative p-6 flex items-center justify-center'>
       <form
         onSubmit={handleSubmit}
-        className='flex items-center gap-2 max-w-xl'>
+        className='flex items-center gap-2 max-w-xl w-full'>
         <div className='relative flex-1'>
           <input
             aria-label='Search movies'
-            className='bg-gray-700 pl-4 pr-8 py-2 rounded-lg'
+            className='bg-gray-700 pl-4 pr-8 py-2 rounded-lg w-full'
             placeholder='Search movies (e.g. Batman)...'
             value={inputValue}
             onChange={(e) => {
               setInputValue(e.target.value);
-              setHasInteracted(true);
+              handleInteraction(true);
             }}
           />
           {isLoading && (
@@ -110,7 +74,7 @@ const SearchBar = () => {
           <Search className='size-6 stroke-3' />
         </button>
       </form>
-      {hasInteracted && autoCompleteResults.length > 0 && (
+      {autoCompleteResults.length > 0 && (
         <AutoCompleteList
           results={autoCompleteResults}
           onSelect={handleSelectSuggestion}
