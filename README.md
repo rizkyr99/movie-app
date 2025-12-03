@@ -83,39 +83,7 @@ Tests include:
 
 ---
 
-## Project Structure
 
-```bash
-src/
-├─ api/
-│  └─ omdb.ts              # Axios client & OMDb API functions
-├─ store/
-│  ├─ index.ts             # Root Redux store
-│  ├─ moviesSlice.ts       # Movies list & infinite scroll logic
-│  └─ movieDetailSlice.ts  # Single movie detail logic
-├─ hooks/
-│  ├─ useDebounce.ts       # Custom debounce hook
-│  ├─ useInfiniteScroll.ts # Custom infinite scroll hook
-│  ├─ useModal.ts          # Custom modal hook
-│  └─ useMovieSearchAutocomplete.ts # Custom debounce hook
-├─ components/
-│  ├─ SearchBar.tsx
-│  ├─ AutoCompleteList.tsx
-│  ├─ MoviesList.tsx
-│  ├─ MovieCard.tsx
-│  ├─ MovieCardSkeleton.tsx
-│  └─ MovieModal.tsx
-├─ pages/
-│  ├─ HomePage.tsx
-│  └─ MovieDetailPage.tsx
-├─ types/
-│  ├─ movie.ts
-├─ App.tsx
-├─ main.tsx
-└─ index.css               # Basic styling
-```
-
----
 
 ## 🚀 How to Run the App Locally
 
@@ -146,7 +114,16 @@ yarn
 
 ---
 
-### **3. Start the Development Server**
+### **3. Create Environment File**
+
+The project includes an `.env.example` file.
+Copy it and rename it to `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+### **4. Start the Development Server**
 
 If using **Vite**:
 
@@ -162,7 +139,7 @@ http://localhost:5173
 
 ---
 
-### **4. Run Unit Tests**
+### **5. Run Unit Tests**
 
 ```bash
 npm test
